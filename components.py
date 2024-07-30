@@ -1,7 +1,22 @@
-def get_grid_position(mouse_x, mouse_y):
-    row = mouse_y // 100
-    col = mouse_x // 100
+import pygame
+
+
+window_size = 300
+screen = pygame.display.set_mode((window_size, window_size))
+line_width = 2
+grid_size = 3
+cell_size = window_size // grid_size
+
+x_img = pygame.image.load('/home/dhruva/tictactoe/X.png')
+o_img = pygame.image.load('/home/dhruva/tictactoe/O.png')
+x_img = pygame.transform.scale(x_img, (100, 100))
+o_img = pygame.transform.scale(o_img, (100, 100))
+
+def get_grid_position(mouse_x, mouse_y,cell_size):
+    row = mouse_y // cell_size
+    col = mouse_x // cell_size
     return row, col
+
 
 def update_board(board, row, col, player):
     if board[row][col] == '':
@@ -31,3 +46,25 @@ def check_winner(board):
         return 'Draw'
     
     return None
+def draw_grid():
+    """Draw the Tic Tac Toe grid."""
+    for i in range(1,cell_size):
+        pygame.draw.line(screen, (0,0,0), (0, i * cell_size), (window_size, i * cell_size), line_width)
+        pygame.draw.line(screen, (0,0,0), (i * cell_size, 0), (i * cell_size, window_size), line_width)
+
+def draw_board(board):
+    """Draw the X's and O's on the board."""
+    for row in range(grid_size):
+        for col in range(grid_size):
+            if board[row][col] == 'X':
+                screen.blit(x_img, (col * cell_size, row * cell_size))
+            elif board[row][col] == 'O':
+                screen.blit(o_img, (col * cell_size, row * cell_size))
+
+
+def reset_game():
+    global board, current_player, winner
+    board = [['' for _ in range(grid_size)] for _ in range(grid_size)]
+    current_player = 'X'
+    winner = None
+                
