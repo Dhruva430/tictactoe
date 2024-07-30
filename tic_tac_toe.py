@@ -19,7 +19,7 @@ start_x = (width - grid_size) // 2
 start_y = (height - grid_size) // 2
 
 
-line_color = (255, 255, 255)
+line_color = (255, 0, 0)
 line_width = 2
 grid_lines = [
     # Horizontal lines
@@ -44,26 +44,18 @@ grid_lines = [
 
 board = [['' for _ in range(3)] for _ in range(3)]
 current_player = 'X'
+screen.fill(background_colour)
 
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or (
-            event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
-        ):
-            running = False
-
-        screen.fill(background_colour)
-
         # Draw grid lines
     for start_pos, end_pos in grid_lines:
         pygame.draw.line(screen, line_color, start_pos, end_pos, line_width)
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or (
+                event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+            ):
                 running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = event.pos
-                print(f"Mouse clicked at ({mouse_x}, {mouse_y})")
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = event.pos
                 row, col = get_grid_position(mouse_x, mouse_y)
