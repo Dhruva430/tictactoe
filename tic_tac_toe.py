@@ -1,6 +1,5 @@
 import pygame
-from components import get_grid_position
-
+from components import get_grid_position,check_winner,update_board
 pygame.init()
 
 background_colour = (0, 0, 0)
@@ -60,5 +59,12 @@ while running:
                 mouse_x, mouse_y = event.pos
                 row, col = get_grid_position(mouse_x, mouse_y)
                 print(f"Grid position: ({row}, {col})")
+
+                if update_board(board, row, col, current_player):
+                    current_player = 'O' if current_player == 'X' else 'X'
+                    winner = check_winner(board)
+                    if winner:
+                        print(f"Winner: {winner}")
+                        running = False
     
     pygame.display.flip()
